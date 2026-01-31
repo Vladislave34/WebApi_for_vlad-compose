@@ -16,7 +16,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - /data/transfer/postgres:/var/lib/postgresql
+      - ${VOLUME_POSTGRES}
     networks:
       - transfer_net
     
@@ -24,10 +24,10 @@ services:
     image: v1dkos/transfer-api-hm:latest
     container_name: transfer_api
     volumes:
-      - /data/transfer/images:/app/images
+      - ${VOLUME_API}
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__DefaultConnection: Host=db;Database=mydb;Port=5022;Username=ivan;Password=marko123halosh
+      ConnectionStrings__DefaultConnection: Host=192.168.64.3;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}
     ports:
       - "5898:8080"
     depends_on:
